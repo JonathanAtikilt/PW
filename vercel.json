@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install --prefix persona3-website",
+  "buildCommand": "npm run build --prefix persona3-website",
+  "outputDirectory": "persona3-website/dist",
+  "framework": "vite"
+}
