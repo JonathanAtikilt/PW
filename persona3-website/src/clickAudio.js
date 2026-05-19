@@ -37,3 +37,19 @@ export function playClickSound() {
   audio.volume = 0.55;
   audio.play().catch(() => {});
 }
+
+/** Prime the audio pool on load so UI sounds work without an extra click first. */
+export function primeClickAudio() {
+  const audio = pool[0];
+  const volume = audio.volume;
+  audio.volume = 0.001;
+  audio.currentTime = 0;
+  return audio
+    .play()
+    .then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = volume;
+    })
+    .catch(() => {});
+}

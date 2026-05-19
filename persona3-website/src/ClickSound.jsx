@@ -3,10 +3,14 @@ import {
   isFeatureTarget,
   isTransitionKey,
   playClickSound,
+  primeClickAudio,
 } from "./clickAudio";
 
 export default function ClickSound() {
   useEffect(() => {
+    primeClickAudio();
+    const retry = window.setTimeout(() => primeClickAudio(), 300);
+
     const onPointerDown = (e) => {
       if (isFeatureTarget(e.target)) playClickSound();
     };
@@ -19,6 +23,7 @@ export default function ClickSound() {
     document.addEventListener("pointerdown", onPointerDown, true);
     document.addEventListener("keydown", onKeyDown, true);
     return () => {
+      window.clearTimeout(retry);
       document.removeEventListener("pointerdown", onPointerDown, true);
       document.removeEventListener("keydown", onKeyDown, true);
     };
