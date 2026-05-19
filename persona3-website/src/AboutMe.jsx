@@ -16,27 +16,27 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 const REVEAL_CONTENT = [
   {
     upper: [
-      "Jonathan Atikilt",
-      "Computer Science B.S./M.S. at UC Santa Cruz",
-      "Minor in Applied Mathematics - GPA 3.84/4.0",
+      "I'm Jonathan Atikilt, a Computer Science student",
+      "focused on machine learning, AI systems, and",
+      "full-stack software engineering.",
     ],
-    lower: "building ML systems, data tools, and full-stack products",
+    lower: "who i am",
   },
   {
     upper: [
-      "Researcher in the UCSC Neuromorphic Computing Lab",
-      "Built Python SNN pipelines for NFL player-tracking data",
-      "Improved runtime efficiency by 20% through cleaner batching and structure",
+      "AI agents, sports analytics, recommendation systems, and NLP —",
+      "plus ML-powered products that turn complex data into",
+      "useful decisions.",
     ],
-    lower: "sports analytics, spatiotemporal data, reproducible experiments",
+    lower: "what i explore",
   },
   {
     upper: [
-      "Built LinkUp, PlotGuard, and NemoPilot",
-      "Works with FastAPI, Next.js, Supabase pgvector, XGBoost, and Hugging Face",
-      "Interested in grounded AI tools that turn messy ideas into working products",
+      "ML experimentation with practical software: data pipelines,",
+      "model training, interface design, and shipping tools",
+      "people can actually use.",
     ],
-    lower: "project mode: applied machine learning with usable interfaces",
+    lower: "how i build",
   },
 ];
 
@@ -48,27 +48,27 @@ const ROLES = [
 
 const ITEMS = [
   {
-    id: "profile", label: "PROFILE", handle: "Jonathan Atikilt", href: "mailto:atikiltjonathan@gmail.com", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["3.84"],
+    id: "who", label: "WHO I AM", handle: "Jonathan Atikilt", href: "mailto:atikiltjonathan@gmail.com", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["3.84"],
     links: ["UC Santa Cruz CS"],
     stats: [
-      { tag: "GPA", value: "3.84", color: "#9147ff" },
-      { tag: "GRD", value: "2027",  color: "#bf94ff" },
+      { tag: "ML", value: "AI", color: "#9147ff" },
+      { tag: "CS", value: "UCSC", color: "#bf94ff" },
     ],
   },
   {
-    id: "research", label: "RESEARCH MODE", handle: "UCSC Labs", href: "https://www.linkedin.com/in/jatikilt/", icon: "📷", barIcon: icon2, bars: 2, newBars: [0], counts: ["20%", "10K+"],
+    id: "explore", label: "WHAT I EXPLORE", handle: "Agents · Sports · NLP", href: "https://www.linkedin.com/in/jatikilt/", icon: "📷", barIcon: icon2, bars: 2, newBars: [0], counts: ["20%", "10K+"],
     links: ["Sports Analytics SNN", "LLM Neuron Explanations"],
     stats: [
-      { tag: "SNN", value: "20%", color: "#e1306c" },
-      { tag: "NLP", value: "10K",  color: "#f77737" },
+      { tag: "NLP", value: "R&D", color: "#e1306c" },
+      { tag: "ML", value: "APP", color: "#f77737" },
     ],
   },
   {
-    id: "projects", label: "BUILD LIST", handle: "ML Products", href: "mailto:atikiltjonathan@gmail.com", icon: "🎵", barIcon: icon3, bars: 3, newBars: [2], counts: ["839", "MV3", "RAG"],
+    id: "build", label: "HOW I BUILD", handle: "Ship ML Products", href: "mailto:atikiltjonathan@gmail.com", icon: "🎵", barIcon: icon3, bars: 3, newBars: [2], counts: ["839", "MV3", "RAG"],
     links: ["LinkUp soccer ML", "PlotGuard spoiler filter", "NemoPilot MVP builder"],
     stats: [
-      { tag: "ML", value: "839", color: "#00f2ea" },
-      { tag: "RAG", value: "MVP",  color: "#ff0050" },
+      { tag: "ML", value: "SHIP", color: "#00f2ea" },
+      { tag: "APP", value: "FULL", color: "#ff0050" },
     ],
   },
 ];
@@ -317,7 +317,11 @@ export default function AboutMe() {
         @media (max-width: 520px) {
           .sc-reveal-upper-line { font-size: clamp(13px, 3.8vw, 20px); }
           .sc-reveal-lower-bar { font-size: clamp(13px, 4.2vw, 22px); }
-          .sc-label { font-size: clamp(18px, 5vw, 28px); letter-spacing: 2px; }
+          .sc-label { font-size: clamp(16px, 4.2vw, 28px); letter-spacing: 1px; }
+          .sc-bar-outer:nth-child(2) .sc-label {
+            font-size: clamp(13px, 3.6vw, 22px);
+            letter-spacing: 0.5px;
+          }
         }
 
         @keyframes sc-right-nav-pop {
