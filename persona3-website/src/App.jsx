@@ -9,6 +9,7 @@ import PageTransition from './PageTransition'
 import Socials from './Socials'
 import AboutMe from './AboutMe'
 import './App.css'
+import './mobile.css'
 
 function MenuScreen() {
   const navigate = useNavigate()
