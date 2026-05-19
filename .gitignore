@@ -1,3 +1,6 @@
+# Accidental root npm artifacts
+/package-lock.json
+
 # Dependencies & build
 persona3-website/node_modules
 persona3-website/dist
