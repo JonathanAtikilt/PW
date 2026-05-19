@@ -1,0 +1,36 @@
+# Dependencies & build
+persona3-website/node_modules
+persona3-website/dist
+persona3-website/dist-ssr
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local env
+*.local
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Unused large media (not referenced by the app)
+persona3-website/src/assets/Main.mp4
+persona3-website/src/assets/Mainn.mp4
+persona3-website/src/assets/menu.mov
+persona3-website/src/assets/main2.mp4
+persona3-website/src/assets/main3.mp4
+
+.claude/
