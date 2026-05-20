@@ -5,6 +5,7 @@ import BackgroundVideo from './BackgroundVideo'
 import ClickSound from './ClickSound'
 import P3Menu from './P3Menu'
 import ResumePage from './ResumePage'
+import ExperiencePage from './ExperiencePage'
 import PageTransition from './PageTransition'
 import Socials from './Socials'
 import AboutMe from './AboutMe'
@@ -34,8 +35,11 @@ function AnimatedRoutes() {
         <Route path="/resume" element={
           <PageTransition variant="resume"><ResumePage src={backgroundVideo} /></PageTransition>
         } />
+        <Route path="/experience" element={
+          <PageTransition variant="experience"><ExperiencePage src={backgroundVideo} /></PageTransition>
+        } />
         <Route path="/projects" element={
-          <PageTransition variant="resume"><ResumePage src={backgroundVideo} initialActive={2} /></PageTransition>
+          <PageTransition variant="experience"><ExperiencePage src={backgroundVideo} /></PageTransition>
         } />
         <Route path="/socials" element={
           <PageTransition variant="socials"><Socials /></PageTransition>

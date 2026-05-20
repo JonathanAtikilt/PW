@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PageBackButton from "./PageBackButton";
 import { useNavigate } from "react-router-dom";
 import char1 from "./assets/char1.png";
 import char2 from "./assets/char2.png";
@@ -95,7 +96,7 @@ export default function Socials() {
         if (e.key === "ArrowLeft") setFocus("left");
         if (e.key === "Enter")     window.open(ITEMS[active].links[activeInfoBar].url, "_blank");
       }
-      if ((e.key === "ArrowLeft" && focus === "left") || e.key === "Escape" || e.key === "Backspace") navigate(-1);
+      if ((e.key === "ArrowLeft" && focus === "left") || e.key === "Escape" || e.key === "Backspace") navigate("/");
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -103,6 +104,13 @@ export default function Socials() {
 
   return (
     <div id="menu-screen">
+      <PageBackButton
+        mounted={mounted}
+        hints={[
+          ["↑↓", "SELECT"],
+          ["↵", "OPEN"],
+        ]}
+      />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&display=swap');
 
@@ -647,11 +655,6 @@ export default function Socials() {
         </div>
       ))}
 
-      <div className={`sc-footer${mounted ? " mounted" : ""}`}>
-        <div className="sc-footer-row"><span className="sc-footer-key">↑↓</span><span>SELECT</span></div>
-        <div className="sc-footer-row"><span className="sc-footer-key">↵</span><span>OPEN</span></div>
-        <div className="sc-footer-row"><span className="sc-footer-key">ESC</span><span>BACK</span></div>
-      </div>
     </div>
   );
 }

@@ -245,7 +245,7 @@ body {
   }
 }
 
-/* ── Resume / Projects ── */
+/* ── Resume / Experience ── */
 @media (max-width: 768px) {
   .resume-overlay {
     display: flex;
@@ -290,7 +290,8 @@ body {
     font-size: clamp(18px, 5vw, 28px);
   }
 
-  .resume-detail-panel {
+  .resume-detail-panel,
+  .experience-detail-panel {
     position: relative;
     top: auto;
     right: auto;
@@ -351,7 +352,8 @@ body {
     font-size: clamp(28px, 8.5vw, 44px);
   }
 
-  .resume-detail-panel {
+  .resume-detail-panel,
+  .experience-detail-panel {
     width: calc(100% - 6vw);
     max-width: calc(100% - 6vw);
     margin-left: 3vw;
@@ -382,7 +384,8 @@ body {
     padding-top: 2vh;
   }
 
-  .resume-detail-panel {
+  .resume-detail-panel,
+  .experience-detail-panel {
     width: 48%;
     margin: 2vh 2vw;
     max-height: 88vh;

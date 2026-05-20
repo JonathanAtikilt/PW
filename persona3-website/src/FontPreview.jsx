@@ -6,7 +6,7 @@ const FONTS = [
   { name: "Bebas Neue",           family: "'Bebas Neue', sans-serif" },
 ];
 
-const LABELS = ["ABOUT ME", "RESUME", "PROJECTS", "CONTACT"];
+const LABELS = ["ABOUT ME", "RESUME", "EXPERIENCE", "CONTACT"];
 const SIZES  = [54, 44, 42, 44];
 const SKEWS  = [-6, -11, -16, -3];
 

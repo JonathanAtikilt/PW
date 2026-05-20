@@ -95,9 +95,43 @@ function SocialsTransition() {
   ));
 }
 
+function ExperienceTransition() {
+  const cards = [
+    { top: "22vh", color: "#0f1760", delay: 0 },
+    { top: "44vh", color: "#7ff6ff", delay: 0.08 },
+    { top: "66vh", color: "#ffffff", delay: 0.16 },
+  ];
+
+  return cards.map((card, i) => (
+    <MotionDiv
+      key={i}
+      style={{
+        position: "fixed",
+        left: "-6vw",
+        top: card.top,
+        width: "78vw",
+        height: "16vh",
+        background: card.color,
+        zIndex: 999 - i,
+        clipPath: "polygon(0 0, 97% 0, 100% 100%, 3% 100%)",
+        boxShadow: card.color === "#ffffff" ? "10px 0 0 #d63232" : "none",
+      }}
+      initial={{ x: "-110vw", opacity: 1 }}
+      animate={{ x: ["-110vw", "30px", "0px", "130vw"] }}
+      transition={{
+        duration: 0.62,
+        delay: card.delay,
+        times: [0, 0.48, 0.7, 1],
+        ease: [0.76, 0, 0.24, 1],
+      }}
+    />
+  ));
+}
+
 function TransitionOverlay({ variant }) {
   if (variant === "about") return <AboutTransition />;
   if (variant === "resume") return <ResumeTransition />;
+  if (variant === "experience") return <ExperienceTransition />;
   if (variant === "socials") return <SocialsTransition />;
   return <DefaultTransition />;
 }

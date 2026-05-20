@@ -1,7 +1,7 @@
 import clickSrc from "./assets/click.m4a";
 
 export const FEATURE_SELECTOR =
-  ".p3-row, .sc-bar-outer, .sc-info-bar-wrap, .resume-card-wrap";
+  ".p3-row, .sc-bar-outer, .sc-info-bar-wrap, .resume-card-wrap, .p3-page-back-bar, .p3-screen-backdrop, .resume-detail-row-link, .experience-lab-link";
 
 const TRANSITION_KEYS = new Set([
   "ArrowUp",
