@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import backgroundVideo from './assets/main1.mp4'
 import BackgroundVideo from './BackgroundVideo'
 import ClickSound from './ClickSound'
@@ -57,6 +58,7 @@ export default function App() {
       <ClickSound />
       <AnimatedRoutes />
       <Analytics />
+      <SpeedInsights />
     </>
   )
 }
