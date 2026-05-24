@@ -19,6 +19,10 @@ body {
   pointer-events: none;
 }
 
+.app-bg-audio {
+  display: none;
+}
+
 #menu-screen {
   position: relative;
   width: 100%;

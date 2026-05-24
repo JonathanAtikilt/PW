@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import backgroundVideo from "./assets/main1.mp4";
+import backgroundMusic from "./assets/color-your-night.mp4";
 import {
   enableBackgroundAudio,
   startBackgroundAudioOnLoad,
@@ -7,35 +8,39 @@ import {
 } from "./backgroundAudio";
 
 export default function BackgroundVideo() {
-  const ref = useRef(null);
+  const videoRef = useRef(null);
+  const audioRef = useRef(null);
 
   const attemptStart = useCallback(async () => {
-    const video = ref.current;
-    if (!video) return;
+    const audio = audioRef.current;
+    if (!audio) return;
 
     if (sessionStorage.getItem("pw-bg-audio") === "1") {
-      await syncBackgroundAudio(video);
+      await syncBackgroundAudio(audio);
       return;
     }
 
-    await startBackgroundAudioOnLoad(video);
+    await startBackgroundAudioOnLoad(audio);
   }, []);
 
   useEffect(() => {
-    const video = ref.current;
-    if (!video) return;
+    const video = videoRef.current;
+    const audio = audioRef.current;
+    if (!video || !audio) return;
+
+    video.muted = true;
+    video.play().catch(() => {});
 
     attemptStart();
 
     const onReady = () => attemptStart();
-    video.addEventListener("loadeddata", onReady);
-    video.addEventListener("canplay", onReady);
+    audio.addEventListener("loadeddata", onReady);
+    audio.addEventListener("canplay", onReady);
 
     const retryTimers = [150, 500, 1200].map((ms) =>
       window.setTimeout(() => attemptStart(), ms),
     );
 
-    // Fallback if the browser still blocks autoplay with sound.
     const onInteract = () => {
       enableBackgroundAudio();
     };
@@ -43,8 +48,8 @@ export default function BackgroundVideo() {
     document.addEventListener("keydown", onInteract, { capture: true, once: true });
 
     return () => {
-      video.removeEventListener("loadeddata", onReady);
-      video.removeEventListener("canplay", onReady);
+      audio.removeEventListener("loadeddata", onReady);
+      audio.removeEventListener("canplay", onReady);
       retryTimers.forEach((id) => window.clearTimeout(id));
       document.removeEventListener("pointerdown", onInteract, { capture: true });
       document.removeEventListener("keydown", onInteract, { capture: true });
@@ -52,14 +57,23 @@ export default function BackgroundVideo() {
   }, [attemptStart]);
 
   return (
-    <video
-      ref={ref}
-      className="app-bg-video"
-      src={backgroundVideo}
-      autoPlay
-      loop
-      muted
-      playsInline
-    />
+    <>
+      <video
+        ref={videoRef}
+        className="app-bg-video"
+        src={backgroundVideo}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+      <audio
+        ref={audioRef}
+        className="app-bg-audio"
+        src={backgroundMusic}
+        loop
+        preload="auto"
+      />
+    </>
   );
 }

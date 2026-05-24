@@ -1,10 +1,14 @@
 const AUDIO_KEY = "pw-bg-audio";
 
-export function unmuteVideo(video) {
-  if (!video) return Promise.resolve(false);
-  video.muted = false;
-  video.volume = 1;
-  return video
+function getBackgroundAudioElements() {
+  return [...document.querySelectorAll("audio.app-bg-audio")];
+}
+
+export function playBackgroundAudio(audio) {
+  if (!audio) return Promise.resolve(false);
+  audio.volume = 1;
+  audio.loop = true;
+  return audio
     .play()
     .then(() => true)
     .catch(() => false);
@@ -12,47 +16,25 @@ export function unmuteVideo(video) {
 
 export function enableBackgroundAudio() {
   sessionStorage.setItem(AUDIO_KEY, "1");
-  return Promise.all(
-    [...document.querySelectorAll("video.app-bg-video")].map(unmuteVideo),
-  );
+  return Promise.all(getBackgroundAudioElements().map(playBackgroundAudio));
 }
 
-export function syncBackgroundAudio(video) {
+export function syncBackgroundAudio(audio) {
   if (sessionStorage.getItem(AUDIO_KEY) === "1") {
-    return unmuteVideo(video);
+    return playBackgroundAudio(audio);
   }
   return Promise.resolve(false);
 }
 
 /** Try to start background music as soon as the page loads. */
-export async function startBackgroundAudioOnLoad(video) {
-  if (!video) return false;
+export async function startBackgroundAudioOnLoad(audio) {
+  if (!audio) return false;
 
-  const tryUnmuted = async () => {
-    video.muted = false;
-    video.volume = 1;
-    try {
-      await video.play();
-      sessionStorage.setItem(AUDIO_KEY, "1");
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  if (await tryUnmuted()) return true;
-
-  // Muted autoplay first, then unmute (works in some browsers).
-  video.muted = true;
   try {
-    await video.play();
-    video.muted = false;
-    video.volume = 1;
-    await video.play();
+    await audio.play();
     sessionStorage.setItem(AUDIO_KEY, "1");
     return true;
   } catch {
-    video.muted = true;
     return false;
   }
 }
