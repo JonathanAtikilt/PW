@@ -43,12 +43,14 @@ export default function P3Menu({ onNavigate }) {
     <>
       <style>{`
         .p3-overlay {
-          position: absolute;
-          inset: 0;
+          position: relative;
+          min-height: 100dvh;
+          width: 100%;
           z-index: 10;
           display: flex;
           align-items: center;
           justify-content: center;
+          padding: 120px 24px 120px;
           pointer-events: none;
         }
 
@@ -211,6 +213,69 @@ export default function P3Menu({ onNavigate }) {
           color: rgba(0, 0, 0, 0.86);
         }
 
+        .p3-hero-block {
+          position: absolute;
+          top: 168px;
+          left: 42px;
+          z-index: 20;
+          max-width: min(560px, 72vw);
+          transform: rotate(14deg);
+          transform-origin: left top;
+          user-select: none;
+          pointer-events: none;
+          opacity: 0;
+          transform: rotate(14deg) translateY(10px);
+          transition: opacity 0.55s ease 1.05s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .p3-hero-block.mounted {
+          opacity: 1;
+          transform: rotate(14deg) translateY(0);
+        }
+
+        .p3-hero-tagline {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          font-family: 'Anton', sans-serif;
+          font-style: italic;
+          letter-spacing: 2px;
+          line-height: 0.88;
+        }
+        .p3-hero-tagline span {
+          display: block;
+          white-space: nowrap;
+        }
+        .p3-hero-tagline span:first-child {
+          font-size: clamp(26px, 4.2vw, 38px);
+          color: rgba(0, 0, 0, 0.86);
+        }
+        .p3-hero-tagline span:last-child {
+          font-size: clamp(30px, 4.8vw, 44px);
+          color: rgba(10, 10, 14, 0.64);
+        }
+
+        .p3-hero-sub {
+          margin-top: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 2px;
+          font-family: 'Anton', sans-serif;
+          font-style: italic;
+          letter-spacing: 1.5px;
+          line-height: 0.95;
+        }
+        .p3-hero-sub span {
+          display: block;
+          font-size: clamp(14px, 2.4vw, 20px);
+          color: #3ce2ff;
+          text-shadow: 0 0 18px rgba(60, 226, 255, 0.35);
+        }
+        .p3-hero-sub span:last-child {
+          font-size: clamp(12px, 2.1vw, 17px);
+          color: rgba(0, 217, 255, 0.88);
+        }
+
         @media (max-width: 768px) {
           .p3-menu {
             padding: 32px;
@@ -228,6 +293,17 @@ export default function P3Menu({ onNavigate }) {
             font-size: clamp(40px, 14vw, 76px);
             left: 20px;
           }
+          .p3-hero-block {
+            top: 128px;
+            left: max(20px, env(safe-area-inset-left));
+            max-width: 88vw;
+          }
+          .p3-hero-tagline span:first-child {
+            font-size: clamp(20px, 5.5vw, 32px);
+          }
+          .p3-hero-tagline span:last-child {
+            font-size: clamp(24px, 6.5vw, 36px);
+          }
         }
       `}</style>
 
@@ -235,6 +311,16 @@ export default function P3Menu({ onNavigate }) {
         <div className="p3-name-tag">
           <span>jonathan</span>
           <span>atikilt</span>
+        </div>
+        <div className={`p3-hero-block ${mounted ? "mounted" : ""}`}>
+          <div className="p3-hero-tagline">
+            <span>machine learning</span>
+            <span>engineer</span>
+          </div>
+          <div className="p3-hero-sub">
+            <span>agentic systems · ranking models</span>
+            <span>interpretable ML · production RAG</span>
+          </div>
         </div>
         <div className="p3-stripe" />
         <div className="p3-stripe2" />

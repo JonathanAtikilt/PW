@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageBackButton from "./PageBackButton";
 
 const ITEMS = [
-  { id: "education", badge: "I", title: "EDUCATION", subtitle: "UCSC / CS + APPLIED MATH", rank: 4 },
-  { id: "skills", badge: "II", title: "SKILLS", subtitle: "ML / SYSTEMS / FULL STACK", rank: 5 },
+  { id: "education", badge: "I", title: "EDUCATION", subtitle: "UCSC CS + APPLIED MATH", rank: 4 },
+  { id: "skills", badge: "II", title: "SKILLS", subtitle: "ML · AGENTS · SYSTEMS", rank: 5 },
   { id: "projects", badge: "III", title: "PROJECTS", subtitle: "LINKUP / PLOTGUARD / NEMOPILOT", rank: 5 },
-  { id: "experience", badge: "IV", title: "EXPERIENCE", subtitle: "RESEARCH / ML PIPELINES", rank: 4 },
+  { id: "experience", badge: "IV", title: "EXPERIENCE", subtitle: "AIEA LAB / NCG LAB", rank: 4 },
 ];
 
 const RESUME_SECTIONS = [
@@ -14,61 +14,106 @@ const RESUME_SECTIONS = [
     index: "01",
     title: "EDUCATION LOG",
     progress: "3.84",
+    subtitle: "FOUNDATION FOR ML ENGINEERING",
+    chips: ["ML", "Systems", "Applied Math", "Research-ready"],
     rows: [
-      { index: "01", title: "UC Santa Cruz", status: "B.S./M.S." },
-      { index: "02", title: "Computer Science", status: "June 2027" },
-      { index: "03", title: "Applied Mathematics", status: "Minor" },
+      { index: "01", title: "UC Santa Cruz — Computer Science", status: "B.S./M.S." },
+      { index: "02", title: "Applied Mathematics (minor)", status: "STEM" },
+      { index: "03", title: "Expected graduation", status: "June 2027" },
       { index: "04", title: "GPA", status: "3.84/4.0" },
+      {
+        index: "05",
+        title: "Request resume PDF",
+        status: "EMAIL",
+        href: "mailto:atikiltjonathan@gmail.com?subject=Resume%20Request",
+      },
     ],
     bullets: [
-      "Coursework: Machine Learning, Data Structures and Algorithms, Computer Systems Design, Computer Architecture.",
-      "Math foundation: Linear Algebra, Probability and Statistics, Discrete Math, Dynamical Systems, Computational Methods.",
-      "Focused on ML systems, data processing, full-stack product work, and research-ready engineering.",
+      "Coursework: Machine Learning, Algorithms, Computer Systems Design, Architecture, and advanced math for modeling.",
+      "Trained to move from experiment design → training → evaluation → deployable API/product surfaces.",
+      "Seeking ML/AI engineering internships where ranking systems, agents, and interpretability meet production constraints.",
     ],
   },
   {
     index: "02",
     title: "SKILL GRID",
-    progress: "LV 5",
+    progress: "STACK",
+    subtitle: "FEATURED TECHNOLOGIES",
+    chips: ["PyTorch", "XGBoost", "FastAPI", "Next.js", "pgvector", "Docker", "K8s"],
     rows: [
-      { index: "01", title: "Python / C / C++ / Java / JavaScript / SQL / Bash", status: "Languages" },
-      { index: "02", title: "PyTorch / TensorFlow / scikit-learn / XGBoost", status: "ML" },
-      { index: "03", title: "Docker / Kubernetes / Linux / GitHub / CI/CD", status: "Systems" },
-      { index: "04", title: "FastAPI / Next.js / REST APIs / Supabase / ETL", status: "Stack" },
+      { index: "01", title: "Languages: Python, C/C++, Java, JS/TS, SQL, Bash", status: "CORE" },
+      { index: "02", title: "ML: PyTorch, TensorFlow, scikit-learn, XGBoost, PCA, clustering", status: "MODEL" },
+      { index: "03", title: "AI systems: RAG, embeddings, reranking, agent orchestration", status: "GENAI" },
+      { index: "04", title: "Product stack: FastAPI, Next.js, Supabase, REST, ETL, Chrome MV3", status: "SHIP" },
     ],
     bullets: [
-      "Builds ML pipelines, API services, and data systems with reproducible experiment structure.",
-      "Comfortable moving between model work, backend services, and product-facing interfaces.",
-      "Works with spiking neural networks, NLP workflows, pgvector retrieval, and applied analytics.",
+      "Designs reproducible ML pipelines with clear feature engineering, training, evaluation, and serving boundaries.",
+      "Builds agentic and retrieval systems with scoped planning, vector search, and reranked context injection.",
+      "Ships full-stack interfaces that expose model outputs in recruiter- and user-friendly form.",
     ],
   },
   {
     index: "03",
     title: "PROJECT LOG",
     progress: "3/3",
+    subtitle: "APPLIED ML / AI PRODUCTS",
+    chips: ["ML Pipeline", "NLP System", "Agentic RAG"],
     rows: [
-      { index: "01", title: "LinkUp - ML Soccer Chemistry Platform", status: "Feb 2025" },
-      { index: "02", title: "PlotGuard - Personalized Spoiler Detection", status: "May 2026" },
-      { index: "03", title: "NemoPilot - Agentic RAG MVP Builder", status: "May 2026" },
+      { index: "01", title: "LinkUp — ranking & chemistry ML", status: "ML PIPE" },
+      { index: "02", title: "PlotGuard — personalized spoiler defense", status: "NLP SYS" },
+      { index: "03", title: "NemoPilot — agentic RAG MVP builder", status: "RAG" },
+      { index: "04", title: "Code & demos on GitHub", status: "REPOS", href: "https://github.com/JonathanAtikilt?tab=repositories" },
     ],
-    bullets: [
-      "LinkUp models player style, tactical roles, chemistry fit, and coach-team compatibility across 839 Premier League players.",
-      "PlotGuard uses local watch progress, NLP risk scoring, DOM scanning, and feedback labels for personalized spoiler filtering.",
-      "NemoPilot combines Nemotron, Supabase pgvector, embeddings, reranking, and agent planning into grounded MVP generation.",
+    blocks: [
+      {
+        title: "LINKUP · ML PIPELINE",
+        bullets: [
+          "Problem: estimate player style, tactical fit, chemistry, and coach–team compatibility from noisy performance data.",
+          "Data/scale: 839 Premier League players · 18 normalized per-90 features · PCA embeddings · MiniBatchKMeans archetypes.",
+          "Models: XGBoost archetype classification + compatibility/ranking layer for human-behavior-style matching.",
+          "Pipeline: ingest → normalize per-90 stats → embed → cluster roles → score chemistry/coach fit → serve rankings.",
+          "Why it matters: turns tabular sports intelligence into an interpretable recommendation engine for squad decisions.",
+        ],
+      },
+      {
+        title: "PLOTGUARD · NLP SYSTEM",
+        bullets: [
+          "Problem: spoiler risk is personal—depends on what you've actually watched, not generic keyword blocklists.",
+          "Approach: Chrome MV3 extension with local watch-progress graph, NLP spoiler classification, entity matching, weighted risk scoring.",
+          "System: real-time DOM scanning + user feedback labels to personalize blocking thresholds per show/page.",
+          "Stack: MV3 service worker, on-device progress store, NLP scoring module, DOM heuristics, lightweight UI controls.",
+          "Why it matters: demonstrates applied NLP + systems design on live web content with privacy-first local state.",
+        ],
+      },
+      {
+        title: "NEMOPILOT · AGENTIC RAG",
+        bullets: [
+          "Problem: MVP specs need grounded retrieval and scoped planning—not unconstrained codegen.",
+          "Architecture: Next.js UI · FastAPI services · Supabase pgvector · NVIDIA Nemotron · OpenClaw orchestration.",
+          "Pipeline: chunk/embed docs → vector retrieve → rerank → agent plan → scoped MVP artifact generation.",
+          "Evaluation: relevance of retrieved context, plan adherence, and end-to-end latency across RAG stages.",
+          "Why it matters: production-shaped agentic stack aligned with ML/AI internship expectations (RAG + orchestration).",
+        ],
+      },
     ],
   },
   {
     index: "04",
     title: "RESEARCH LOG",
     progress: "2/2",
+    subtitle: "INTERPRETABLE + NEUROMORPHIC ML",
+    chips: ["LLM XAI", "SNN", "Docker/K8s", "Sports ML"],
     rows: [
-      { index: "01", title: "Sports Analytics - UCSC Neuromorphic Computing Lab", status: "2024-25" },
-      { index: "02", title: "Neuron Explanations for LLMs - UCSC AIEA Lab", status: "2025" },
+      { index: "01", title: "Neuromorphic Computing Group (UCSC)", status: "2024-25" },
+      { index: "02", title: "AIEA Lab — LLM interpretability", status: "2025" },
+      { index: "03", title: "NCG lab site", status: "LINK", href: "https://ncg.ucsc.edu/" },
+      { index: "04", title: "AIEA lab site", status: "LINK", href: "https://aiea-lab.github.io/" },
     ],
     bullets: [
-      "Improved Python spiking neural network training workflow runtime by 20% through modular refactoring and batching.",
-      "Built scalable player-tracking data workflows for feature extraction, filtering, temporal sequences, and reproducible logs.",
-      "Deployed Docker/Kubernetes LLM interpretability experiments across 10k+ NLP samples for neuron activation analysis.",
+      "NCG: sports analytics with spiking neural networks—20% faster Python SNN training via modular batching/refactors.",
+      "Built player-tracking feature pipelines (extraction, temporal sequences, reproducible experiment logs).",
+      "AIEA: Docker/Kubernetes LLM interpretability runs across 10k+ NLP samples for neuron activation analysis.",
+      "Supported compositional neuron explanation workflows for mapping LLM activations to interpretable concepts.",
     ],
   },
 ];
@@ -77,7 +122,12 @@ export default function ResumePage({ src, initialActive = 1 }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(initialActive);
   const [mounted, setMounted] = useState(false);
+  const detailScrollRef = useRef(null);
   const activeSection = RESUME_SECTIONS[active];
+
+  useEffect(() => {
+    if (detailScrollRef.current) detailScrollRef.current.scrollTop = 0;
+  }, [active]);
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
@@ -309,15 +359,48 @@ export default function ResumePage({ src, initialActive = 1 }) {
           right: 4.5vw;
           width: min(39vw, 620px);
           max-width: calc(100% - 4.5vw);
-          min-height: 74vh;
+          height: min(78vh, calc(100dvh - 12vh));
+          max-height: min(78vh, calc(100dvh - 12vh));
           z-index: 12;
-          padding: 22px 24px 24px 24px;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
           background: linear-gradient(180deg, rgba(15, 28, 105, 0.96) 0%, rgba(8, 16, 68, 0.97) 100%);
           clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
           box-shadow:
             inset 0 0 0 1px rgba(133, 244, 255, 0.16),
             16px 16px 0 rgba(0, 6, 30, 0.55);
           overflow: hidden;
+          pointer-events: all;
+        }
+        .resume-detail-header {
+          flex-shrink: 0;
+          padding: 22px 24px 12px;
+          position: relative;
+          z-index: 2;
+          background: linear-gradient(180deg, rgba(15, 28, 105, 0.98) 0%, rgba(12, 22, 88, 0.95) 100%);
+          box-shadow: 0 8px 16px rgba(5, 10, 45, 0.45);
+        }
+        .resume-detail-scroll {
+          flex: 1 1 auto;
+          min-height: 0;
+          overflow-x: hidden;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+          padding: 8px 24px 28px;
+          pointer-events: auto;
+          touch-action: pan-y;
+        }
+        .resume-detail-scroll-hint {
+          flex-shrink: 0;
+          padding: 6px 24px 10px;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 12px;
+          letter-spacing: 2px;
+          text-align: center;
+          color: rgba(141, 246, 255, 0.45);
+          pointer-events: none;
         }
         .resume-detail-panel::before {
           content: "";
@@ -368,9 +451,8 @@ export default function ResumePage({ src, initialActive = 1 }) {
           display: flex;
           flex-direction: column;
           gap: 10px;
-          margin-top: 18px;
+          margin-top: 8px;
           max-width: 100%;
-          overflow: hidden;
         }
         .resume-detail-row {
           display: grid;
@@ -444,6 +526,43 @@ export default function ResumePage({ src, initialActive = 1 }) {
           overflow-wrap: anywhere;
         }
 
+        .resume-detail-subtitle {
+          position: relative;
+          margin: 12px 0 4px;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 15px;
+          letter-spacing: 2px;
+          color: #91f5ff;
+        }
+        .resume-detail-chips {
+          position: relative;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 12px;
+        }
+        .resume-detail-chip {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 12px;
+          letter-spacing: 1.1px;
+          padding: 4px 8px;
+          color: #041238;
+          background: #8df6ff;
+          clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+        }
+        a.resume-detail-row-link {
+          text-decoration: none;
+          color: inherit;
+          cursor: pointer;
+        }
+        a.resume-detail-row-link:hover {
+          transform: translateX(4px);
+          background: rgba(12, 26, 94, 1);
+        }
+        a.resume-detail-row-link:hover .resume-detail-status {
+          background: #d3fdff;
+        }
+
         .sc-footer {
           position: fixed;
           bottom: 24px;
@@ -490,7 +609,12 @@ export default function ResumePage({ src, initialActive = 1 }) {
           .resume-detail-panel {
             width: min(58vw, calc(100vw - 6vw));
             max-width: calc(100vw - 6vw);
-            padding: 16px 14px;
+          }
+          .resume-detail-header {
+            padding: 16px 14px 10px;
+          }
+          .resume-detail-scroll {
+            padding: 6px 14px 20px;
           }
           .resume-detail-top {
             grid-template-columns: 40px minmax(0, 1fr) minmax(0, max-content);
@@ -539,31 +663,80 @@ export default function ResumePage({ src, initialActive = 1 }) {
           ))}
         </div>
 
-        <div className="resume-detail-panel">
-          <div className="resume-detail-top">
-            <div className="resume-detail-top-index">{activeSection.index}</div>
-            <div className="resume-detail-top-title">{activeSection.title}</div>
-            <div className="resume-detail-top-progress">{activeSection.progress}</div>
-          </div>
-
-          <div className="resume-detail-list">
-            {activeSection.rows.map((row) => (
-              <div className="resume-detail-row" key={row.index}>
-                <div className="resume-detail-row-index">{row.index}</div>
-                <div className="resume-detail-row-title">{row.title}</div>
-                <div className="resume-detail-status">{row.status}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="resume-detail-bottom">
-            <div className="resume-detail-bottom-title">DETAILS</div>
-            <div className="resume-detail-bullets">
-              {activeSection.bullets.map((bullet) => (
-                <div className="resume-detail-bullet" key={bullet}>- {bullet}</div>
-              ))}
+        <div className="resume-detail-panel" key={activeSection.index}>
+          <div className="resume-detail-header">
+            <div className="resume-detail-top">
+              <div className="resume-detail-top-index">{activeSection.index}</div>
+              <div className="resume-detail-top-title">{activeSection.title}</div>
+              <div className="resume-detail-top-progress">{activeSection.progress}</div>
             </div>
+
+            {activeSection.subtitle && (
+              <div className="resume-detail-subtitle">{activeSection.subtitle}</div>
+            )}
+            {activeSection.chips && (
+              <div className="resume-detail-chips">
+                {activeSection.chips.map((chip) => (
+                  <span className="resume-detail-chip" key={chip}>{chip}</span>
+                ))}
+              </div>
+            )}
           </div>
+
+          <div className="resume-detail-scroll" ref={detailScrollRef}>
+          <div className="resume-detail-list">
+            {activeSection.rows.map((row) => {
+              const inner = (
+                <>
+                  <div className="resume-detail-row-index">{row.index}</div>
+                  <div className="resume-detail-row-title">{row.title}</div>
+                  <div className="resume-detail-status">{row.status}</div>
+                </>
+              );
+              if (row.href) {
+                return (
+                  <a
+                    key={row.index}
+                    className="resume-detail-row resume-detail-row-link"
+                    href={row.href}
+                    target={row.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel={row.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                  >
+                    {inner}
+                  </a>
+                );
+              }
+              return (
+                <div className="resume-detail-row" key={row.index}>
+                  {inner}
+                </div>
+              );
+            })}
+          </div>
+
+          {activeSection.blocks ? (
+            activeSection.blocks.map((block) => (
+              <div className="resume-detail-bottom" key={block.title}>
+                <div className="resume-detail-bottom-title">{block.title}</div>
+                <div className="resume-detail-bullets">
+                  {block.bullets.map((bullet) => (
+                    <div className="resume-detail-bullet" key={bullet}>- {bullet}</div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="resume-detail-bottom">
+              <div className="resume-detail-bottom-title">DETAILS</div>
+              <div className="resume-detail-bullets">
+                {activeSection.bullets.map((bullet) => (
+                  <div className="resume-detail-bullet" key={bullet}>- {bullet}</div>
+                ))}
+              </div>
+            </div>
+          )}
+          </div>
+          <div className="resume-detail-scroll-hint" aria-hidden="true">SCROLL FOR MORE</div>
         </div>
 
       </div>

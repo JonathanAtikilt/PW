@@ -23,8 +23,9 @@ body {
 }
 
 #menu-screen {
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
 }
 
 /* Touch-friendly hit targets */
@@ -39,6 +40,11 @@ body {
 @media (max-width: 768px) {
   .p3-name-tag {
     top: max(12px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
+  }
+
+  .p3-hero-block {
+    top: 140px;
     left: max(16px, env(safe-area-inset-left));
   }
 
@@ -72,6 +78,17 @@ body {
 
   .p3-label-base {
     font-size: clamp(30px, 10vw, 56px) !important;
+  }
+}
+
+/* ── About: allow vertical scroll when 4 bars overflow ── */
+@media (max-width: 768px) {
+  .sc-root {
+    position: relative;
+    inset: auto;
+    min-height: min(100dvh, 100%);
+    padding: max(100px, 18vh) 0 max(140px, 22vh);
+    justify-content: flex-start;
   }
 }
 
@@ -298,14 +315,32 @@ body {
     left: auto;
     width: calc(100% - 8vw);
     max-width: calc(100% - 8vw);
-    min-height: 0;
-    max-height: none;
+    height: auto;
+    max-height: min(72vh, calc(100dvh - 28vh));
+    min-height: 280px;
     margin: 10px 4vw max(16px, env(safe-area-inset-bottom));
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    pointer-events: auto;
+  }
+
+  .resume-detail-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    pointer-events: auto;
+    touch-action: pan-y;
+  }
+
+  .experience-detail-panel {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    padding: 16px 14px 24px;
   }
 
   .resume-detail-list {

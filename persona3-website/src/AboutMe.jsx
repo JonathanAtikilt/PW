@@ -17,27 +17,43 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 const REVEAL_CONTENT = [
   {
     upper: [
-      "I'm Jonathan Atikilt, a Computer Science student",
-      "focused on machine learning, AI systems, and",
-      "full-stack software engineering.",
+      "Machine Learning Engineer focused on agentic systems,",
+      "applied ranking models, interpretable ML, and",
+      "RAG-backed products that ship end-to-end.",
     ],
     lower: "who i am",
+    subtitle: "UCSC CS + APPLIED MATH · GPA 3.84 · JUNE 2027",
+    chips: ["Agentic ML", "Ranking", "RAG", "Interpretability"],
   },
   {
     upper: [
-      "AI agents, sports analytics, recommendation systems, and NLP —",
-      "plus ML-powered products that turn complex data into",
-      "useful decisions.",
+      "Applied ML systems: human behavior modeling, compatibility",
+      "and ranking engines, agent orchestration, and sports/media",
+      "intelligence built for real decision workflows.",
     ],
     lower: "what i explore",
+    subtitle: "RESEARCH + PRODUCT ML",
+    chips: ["Behavior modeling", "Recommendations", "NLP", "Sports ML"],
   },
   {
     upper: [
-      "ML experimentation with practical software: data pipelines,",
-      "model training, interface design, and shipping tools",
-      "people can actually use.",
+      "Production pipelines first—feature engineering, training,",
+      "evaluation, API surfaces, and interfaces that make model",
+      "output legible to users and reviewers.",
     ],
     lower: "how i build",
+    subtitle: "FEATURED BUILDS",
+    chips: ["LinkUp", "PlotGuard", "NemoPilot"],
+  },
+  {
+    upper: [
+      "Agentic orchestration, retrieval-augmented generation,",
+      "ranking/recommendation models, interpretable ML, and",
+      "sports/media intelligence systems.",
+    ],
+    lower: "current focus",
+    subtitle: "TARGETING ML / AI ENGINEERING ROLES",
+    chips: ["Agents", "pgvector RAG", "XGBoost", "XAI", "MV3 NLP"],
   },
 ];
 
@@ -45,31 +61,40 @@ const ROLES = [
   { text: "LEADER", color: "#e8c100", bg: "rgba(232,193,0,0.12)", border: "rgba(232,193,0,0.5)" },
   { text: "PARTY",  color: "#4a8fff", bg: "rgba(74,143,255,0.12)", border: "rgba(74,143,255,0.5)" },
   { text: "PARTY",  color: "#4a8fff", bg: "rgba(74,143,255,0.12)", border: "rgba(74,143,255,0.5)" },
+  { text: "PARTY",  color: "#4a8fff", bg: "rgba(74,143,255,0.12)", border: "rgba(74,143,255,0.5)" },
 ];
 
 const ITEMS = [
   {
-    id: "who", label: "WHO I AM", handle: "Jonathan Atikilt", href: "mailto:atikiltjonathan@gmail.com", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["3.84"],
-    links: ["UC Santa Cruz CS"],
+    id: "who", label: "WHO I AM", handle: "ML Engineer · UCSC", href: "mailto:atikiltjonathan@gmail.com", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["3.84"],
+    links: ["Applied ML systems", "Interpretable AI products"],
     stats: [
-      { tag: "ML", value: "AI", color: "#9147ff" },
+      { tag: "ML", value: "ENG", color: "#9147ff" },
       { tag: "CS", value: "UCSC", color: "#bf94ff" },
     ],
   },
   {
-    id: "explore", label: "WHAT I EXPLORE", handle: "Agents · Sports · NLP", href: "https://www.linkedin.com/in/jatikilt/", icon: "📷", barIcon: icon2, bars: 2, newBars: [0], counts: ["20%", "10K+"],
-    links: ["Sports Analytics SNN", "LLM Neuron Explanations"],
+    id: "explore", label: "WHAT I EXPLORE", handle: "Ranking · Agents · XAI", href: "https://www.linkedin.com/in/jatikilt/", icon: "📷", barIcon: icon2, bars: 2, newBars: [0], counts: ["20%", "10K+"],
+    links: ["Neuromorphic sports analytics (NCG)", "LLM neuron explanations (AIEA)"],
     stats: [
-      { tag: "NLP", value: "R&D", color: "#e1306c" },
-      { tag: "ML", value: "APP", color: "#f77737" },
+      { tag: "RANK", value: "ML", color: "#e1306c" },
+      { tag: "RAG", value: "SYS", color: "#f77737" },
     ],
   },
   {
     id: "build", label: "HOW I BUILD", handle: "Ship ML Products", href: "mailto:atikiltjonathan@gmail.com", icon: "🎵", barIcon: icon3, bars: 3, newBars: [2], counts: ["839", "MV3", "RAG"],
-    links: ["LinkUp soccer ML", "PlotGuard spoiler filter", "NemoPilot MVP builder"],
+    links: ["LinkUp · ML pipeline & chemistry", "PlotGuard · NLP spoiler system", "NemoPilot · agentic RAG MVP builder"],
     stats: [
-      { tag: "ML", value: "SHIP", color: "#00f2ea" },
-      { tag: "APP", value: "FULL", color: "#ff0050" },
+      { tag: "ML", value: "PIPE", color: "#00f2ea" },
+      { tag: "APP", value: "SHIP", color: "#ff0050" },
+    ],
+  },
+  {
+    id: "focus", label: "CURRENT FOCUS", handle: "Agents · RAG · Ranking", href: "https://www.linkedin.com/in/jatikilt/", icon: "🎮", barIcon: icon1, bars: 4, newBars: [3], counts: ["RAG", "XAI"],
+    links: ["Agentic orchestration", "Retrieval + reranking", "Recommendation models"],
+    stats: [
+      { tag: "NOW", value: "ML", color: "#9147ff" },
+      { tag: "GOAL", value: "AI", color: "#bf94ff" },
     ],
   },
 ];
@@ -114,9 +139,19 @@ export default function AboutMe() {
       {revealed && (
         <div key={`panel-${active}`} className={`sc-reveal-panel${mounted ? " mounted" : ""}`}>
           <div className="sc-reveal-upper-bar">
+            {REVEAL_CONTENT[active].subtitle && (
+              <div className="sc-reveal-subtitle">{REVEAL_CONTENT[active].subtitle}</div>
+            )}
             {REVEAL_CONTENT[active].upper.map((line) => (
               <div className="sc-reveal-upper-line" key={line}>{line}</div>
             ))}
+            {REVEAL_CONTENT[active].chips && (
+              <div className="sc-reveal-chips">
+                {REVEAL_CONTENT[active].chips.map((chip) => (
+                  <span className="sc-reveal-chip" key={chip}>{chip}</span>
+                ))}
+              </div>
+            )}
           </div>
           <div className="sc-reveal-lower-bar">{REVEAL_CONTENT[active].lower}</div>
         </div>
@@ -134,7 +169,7 @@ export default function AboutMe() {
         <div key={`portrait-${active}`} className={`sc-main-portrait-shell${mounted ? " mounted" : ""}`}>
           <img
             className="sc-main-portrait"
-            src={MAIN_IMAGES[active]}
+            src={MAIN_IMAGES[active % MAIN_IMAGES.length]}
             alt=""
           />
         </div>
@@ -287,6 +322,13 @@ export default function AboutMe() {
           color: #fff;
           text-align: center;
         }
+        .sc-reveal-subtitle {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 13px;
+          letter-spacing: 2px;
+          color: #8df6ff;
+          margin-bottom: 4px;
+        }
         .sc-reveal-upper-line {
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
@@ -297,6 +339,24 @@ export default function AboutMe() {
           word-break: break-word;
           max-width: 100%;
           padding: 0 12px;
+        }
+        .sc-reveal-chips {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 6px;
+          padding: 8px 10px 0;
+          max-width: 100%;
+        }
+        .sc-reveal-chip {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 11px;
+          letter-spacing: 1.2px;
+          padding: 3px 8px;
+          border: 1px solid rgba(141, 246, 255, 0.45);
+          color: rgba(255, 255, 255, 0.88);
+          background: rgba(0, 0, 0, 0.35);
+          clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
         }
         .sc-reveal-lower-bar {
           position: absolute;
@@ -652,7 +712,7 @@ export default function AboutMe() {
           >
             <div className="sc-bar-red" />
             <div className="sc-bar">
-              <img className="sc-char" src={CHARS[i]} alt="" />
+              <img className="sc-char" src={CHARS[i % CHARS.length]} alt="" />
               <div className="sc-bar-fill" />
               <div className="sc-bar-shade" />
               <div className="sc-bar-content">
