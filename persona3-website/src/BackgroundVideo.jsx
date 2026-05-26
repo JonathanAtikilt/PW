@@ -3,8 +3,7 @@ import backgroundVideo from "./assets/main1.mp4";
 import backgroundMusic from "./assets/color-your-night.mp4";
 import {
   enableBackgroundAudio,
-  startBackgroundAudioOnLoad,
-  syncBackgroundAudio,
+  playBackgroundAudio,
 } from "./backgroundAudio";
 
 export default function BackgroundVideo() {
@@ -15,12 +14,14 @@ export default function BackgroundVideo() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (sessionStorage.getItem("pw-bg-audio") === "1") {
-      await syncBackgroundAudio(audio);
+    if (!audio.paused && !audio.muted) return;
+
+    if (!audio.paused && audio.muted) {
+      audio.muted = false;
       return;
     }
 
-    await startBackgroundAudioOnLoad(audio);
+    await playBackgroundAudio(audio);
   }, []);
 
   useEffect(() => {
@@ -36,8 +37,9 @@ export default function BackgroundVideo() {
     const onReady = () => attemptStart();
     audio.addEventListener("loadeddata", onReady);
     audio.addEventListener("canplay", onReady);
+    audio.addEventListener("canplaythrough", onReady);
 
-    const retryTimers = [150, 500, 1200].map((ms) =>
+    const retryTimers = [0, 100, 300, 800, 2000].map((ms) =>
       window.setTimeout(() => attemptStart(), ms),
     );
 
@@ -46,13 +48,16 @@ export default function BackgroundVideo() {
     };
     document.addEventListener("pointerdown", onInteract, { capture: true, once: true });
     document.addEventListener("keydown", onInteract, { capture: true, once: true });
+    document.addEventListener("touchstart", onInteract, { capture: true, once: true });
 
     return () => {
       audio.removeEventListener("loadeddata", onReady);
       audio.removeEventListener("canplay", onReady);
+      audio.removeEventListener("canplaythrough", onReady);
       retryTimers.forEach((id) => window.clearTimeout(id));
       document.removeEventListener("pointerdown", onInteract, { capture: true });
       document.removeEventListener("keydown", onInteract, { capture: true });
+      document.removeEventListener("touchstart", onInteract, { capture: true });
     };
   }, [attemptStart]);
 
@@ -73,6 +78,9 @@ export default function BackgroundVideo() {
         src={backgroundMusic}
         loop
         preload="auto"
+        autoPlay
+        muted
+        playsInline
       />
     </>
   );

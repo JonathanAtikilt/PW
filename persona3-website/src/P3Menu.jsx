@@ -16,7 +16,7 @@ const CLIP_SHAPES = [
 
 export default function P3Menu({ onNavigate }) {
   const [active, setActive] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const [menuMounted, setMenuMounted] = useState(false);
   const [animKey, setAnimKey] = useState(0);
 
   const activate = (idx) => {
@@ -25,7 +25,7 @@ export default function P3Menu({ onNavigate }) {
   };
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 1000);
+    const t = setTimeout(() => setMenuMounted(true), 120);
     return () => clearTimeout(t);
   }, []);
 
@@ -219,15 +219,9 @@ export default function P3Menu({ onNavigate }) {
           left: 42px;
           z-index: 20;
           max-width: min(560px, 72vw);
-          transform: rotate(14deg);
           transform-origin: left top;
           user-select: none;
           pointer-events: none;
-          opacity: 0;
-          transform: rotate(14deg) translateY(10px);
-          transition: opacity 0.55s ease 1.05s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .p3-hero-block.mounted {
           opacity: 1;
           transform: rotate(14deg) translateY(0);
         }
@@ -312,7 +306,7 @@ export default function P3Menu({ onNavigate }) {
           <span>jonathan</span>
           <span>atikilt</span>
         </div>
-        <div className={`p3-hero-block ${mounted ? "mounted" : ""}`}>
+        <div className="p3-hero-block">
           <div className="p3-hero-tagline">
             <span>machine learning</span>
             <span>engineer</span>
@@ -338,11 +332,11 @@ export default function P3Menu({ onNavigate }) {
               <a
                 key={item.id}
                 href="#"
-                className={`p3-row ${isActive ? "active" : ""} ${mounted ? "mounted" : ""}`}
+                className={`p3-row ${isActive ? "active" : ""} ${menuMounted ? "mounted" : ""}`}
                 style={{
                   marginRight: item.offsetX,
                   marginTop: item.offsetY,
-                  transitionDelay: mounted ? `${i * 80}ms` : "0ms",
+                  transitionDelay: menuMounted ? `${i * 80}ms` : "0ms",
                 }}
                 onClick={(e) => { e.preventDefault(); onNavigate?.(item.page); }}
                 onMouseEnter={() => activate(i)}
@@ -391,7 +385,7 @@ export default function P3Menu({ onNavigate }) {
           })}
         </nav>
 
-        <div className={`p3-hint ${mounted ? "mounted" : ""}`}>
+        <div className={`p3-hint ${menuMounted ? "mounted" : ""}`}>
           <div className="p3-hint-row"><span className="p3-hint-key">↑↓</span><span>NAVIGATE</span></div>
           <div className="p3-hint-row"><span className="p3-hint-key">↵</span><span>CONFIRM</span></div>
         </div>
