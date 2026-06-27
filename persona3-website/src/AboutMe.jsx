@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import PageBackButton from "./PageBackButton";
 import char1 from "./assets/char1.png";
@@ -17,13 +17,12 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 const REVEAL_CONTENT = [
   {
     upper: [
-      "Machine Learning Engineer focused on agentic systems,",
-      "applied ranking models, interpretable ML, and",
-      "RAG-backed products that ship end-to-end.",
+      "Project Engineer at Syntronic, supporting Amazon's RF team.",
+      "Interested in agentic ML, ranking models, and interpretable AI products.",
     ],
     lower: "who i am",
-    subtitle: "UCSC CS + APPLIED MATH · GPA 3.84 · JUNE 2027",
-    chips: ["Agentic ML", "Ranking", "RAG", "Interpretability"],
+    subtitle: "SYNTRONIC → AMAZON RF · UCSC · GPA 3.7 · JUNE 2027",
+    chips: ["RF Validation", "Agentic ML", "Ranking", "RAG"],
   },
   {
     upper: [
@@ -66,7 +65,7 @@ const ROLES = [
 
 const ITEMS = [
   {
-    id: "who", label: "WHO I AM", handle: "ML Engineer · UCSC", href: "mailto:atikiltjonathan@gmail.com", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["3.84"],
+    id: "who", label: "WHO I AM", handle: "ML Engineer · Syntronic/Amazon RF", href: "mailto:atikiltjonathan@gmail.com", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["3.7"],
     links: ["Applied ML systems", "Interpretable AI products"],
     stats: [
       { tag: "ML", value: "ENG", color: "#9147ff" },
@@ -105,6 +104,16 @@ export default function AboutMe() {
   const [revealed, setRevealed] = useState(false);
   const navigate = useNavigate();
 
+  const selectBar = useCallback((index) => {
+    setActive(index);
+    setRevealed(true);
+  }, []);
+
+  const goBack = useCallback(() => {
+    if (revealed) setRevealed(false);
+    else navigate("/");
+  }, [revealed, navigate]);
+
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 60);
     return () => clearTimeout(t);
@@ -112,75 +121,40 @@ export default function AboutMe() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "ArrowUp") setActive(i => Math.max(0, i - 1));
-      if (e.key === "ArrowDown") setActive(i => Math.min(ITEMS.length - 1, i + 1));
-      if (e.key === "Enter") setRevealed(true);
-      if (e.key === "ArrowRight") setRevealed(true);
-      if (e.key === "ArrowLeft") {
-        if (revealed) setRevealed(false);
-        else navigate("/");
+      if (e.key === "ArrowUp") {
+        setActive((i) => Math.max(0, i - 1));
+        return;
       }
-      if (e.key === "Escape" || e.key === "Backspace") navigate("/");
+      if (e.key === "ArrowDown") {
+        setActive((i) => Math.min(ITEMS.length - 1, i + 1));
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        if (revealed) setActive((i) => Math.min(ITEMS.length - 1, i + 1));
+        else selectBar(active);
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        if (revealed && active > 0) setActive((i) => i - 1);
+        else goBack();
+        return;
+      }
+      if (e.key === "Enter") selectBar(active);
+      if (e.key === "Escape" || e.key === "Backspace") goBack();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [active, navigate, revealed]);
+  }, [active, goBack, revealed, selectBar]);
 
   return (
     <div id="menu-screen">
-      <PageBackButton
-        mounted={mounted}
-        hints={[
-          ["↑↓", "SELECT"],
-          ["↵", "REVEAL"],
-        ]}
-      />
-      {revealed && <div key={`dim-${active}`} className="sc-dim" />}
-      {revealed && (
-        <div key={`panel-${active}`} className={`sc-reveal-panel${mounted ? " mounted" : ""}`}>
-          <div className="sc-reveal-upper-bar">
-            {REVEAL_CONTENT[active].subtitle && (
-              <div className="sc-reveal-subtitle">{REVEAL_CONTENT[active].subtitle}</div>
-            )}
-            {REVEAL_CONTENT[active].upper.map((line) => (
-              <div className="sc-reveal-upper-line" key={line}>{line}</div>
-            ))}
-            {REVEAL_CONTENT[active].chips && (
-              <div className="sc-reveal-chips">
-                {REVEAL_CONTENT[active].chips.map((chip) => (
-                  <span className="sc-reveal-chip" key={chip}>{chip}</span>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="sc-reveal-lower-bar">{REVEAL_CONTENT[active].lower}</div>
-        </div>
-      )}
-      {revealed && (
-        <div key={`nav-${active}`} className="sc-right-nav">
-          <span className="sc-nav-arrow left">◄</span>
-          <span className="sc-nav-btn">LB</span>
-          <span className="sc-nav-dot" />
-          <span className="sc-nav-btn">RB</span>
-          <span className="sc-nav-arrow right">►</span>
-        </div>
-      )}
-      {revealed && (
-        <div key={`portrait-${active}`} className={`sc-main-portrait-shell${mounted ? " mounted" : ""}`}>
-          <img
-            className="sc-main-portrait"
-            src={MAIN_IMAGES[active % MAIN_IMAGES.length]}
-            alt=""
-          />
-        </div>
-      )}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&family=Montserrat:wght@300&display=swap');
 
         .sc-root {
           position: absolute;
           inset: 0;
-          z-index: 6;
+          z-index: 50;
           pointer-events: none;
           display: flex;
           flex-direction: column;
@@ -188,6 +162,18 @@ export default function AboutMe() {
           justify-content: center;
           gap: 6px;
           padding-left: 0;
+        }
+        .sc-root.revealed {
+          z-index: 5;
+          pointer-events: none;
+        }
+        .sc-root.revealed .sc-bar-outer {
+          opacity: 0;
+          transform: translateX(-120%);
+          pointer-events: none;
+          transition:
+            opacity 0.28s ease,
+            transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .sc-dim {
@@ -273,8 +259,9 @@ export default function AboutMe() {
         .sc-reveal-panel {
           position: absolute;
           top: 44vh;
-          left: -6vw;
-          width: 88vw;
+          left: max(-2vw, calc(-1 * env(safe-area-inset-left)));
+          width: min(88vw, calc(100vw - max(16px, env(safe-area-inset-left)) - 8px));
+          max-width: calc(100vw - max(16px, env(safe-area-inset-left)) - 8px);
           height: 60vh;
           z-index: 12;
           pointer-events: none;
@@ -321,6 +308,10 @@ export default function AboutMe() {
           gap: 10px;
           color: #fff;
           text-align: center;
+          overflow-x: hidden;
+          overflow-y: auto;
+          box-sizing: border-box;
+          padding: 8px 0;
         }
         .sc-reveal-subtitle {
           font-family: 'Bebas Neue', sans-serif;
@@ -328,6 +319,11 @@ export default function AboutMe() {
           letter-spacing: 2px;
           color: #8df6ff;
           margin-bottom: 4px;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          max-width: 100%;
+          padding: 0 12px;
+          text-align: center;
         }
         .sc-reveal-upper-line {
           font-family: 'Montserrat', sans-serif;
@@ -453,9 +449,14 @@ export default function AboutMe() {
         /* ── Each bar ── */
         .sc-bar {
           position: relative;
-          width: 45vw;
+          width: min(45vw, calc(100vw - max(16px, env(safe-area-inset-left)) - 12px));
+          max-width: calc(100vw - max(16px, env(safe-area-inset-left)) - 12px);
           height: 64px;
-          transition: height 0.3s cubic-bezier(0.22,1,0.36,1);
+          transition:
+            height 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.25s ease,
+            transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+            filter 0.25s ease;
           background: #111;
           cursor: pointer;
           pointer-events: all;
@@ -469,30 +470,76 @@ export default function AboutMe() {
           position: relative;
           flex-shrink: 0;
           transform: translateX(-100%);
-          transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          opacity: 1;
+          transition:
+            transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.28s ease;
+          cursor: pointer;
+          pointer-events: auto;
+          display: block;
+          border: none;
+          background: none;
+          padding: 5px 0;
+          margin: 0;
+          font: inherit;
+          color: inherit;
+          text-align: left;
+          -webkit-tap-highlight-color: transparent;
         }
-        .sc-bar-outer.active .sc-bar     { height: 90px; }
-        .sc-bar-outer.active .sc-bar-red { height: 90px; }
+        .sc-bar-outer:focus-visible {
+          outline: 2px solid rgba(133, 244, 255, 0.75);
+          outline-offset: 3px;
+        }
         .sc-bar-outer.mounted { transform: translateX(0); }
         .sc-bar-outer:nth-child(1) { transition-delay: 0ms; }
         .sc-bar-outer:nth-child(2) { transition-delay: 80ms; }
         .sc-bar-outer:nth-child(3) { transition-delay: 160ms; }
+        .sc-bar-outer:nth-child(4) { transition-delay: 240ms; }
+
+        /* Selected bar — full highlight (click or keyboard, not hover) */
+        .sc-bar-outer.active .sc-bar {
+          height: 90px;
+          transform: translateX(10px);
+          box-shadow:
+            0 10px 28px rgba(0, 0, 0, 0.72),
+            0 0 32px rgba(196, 0, 26, 0.42);
+          filter: brightness(1.08);
+        }
+        .sc-bar-outer.active .sc-bar-red {
+          height: 90px;
+          opacity: 1;
+        }
+
+        /* Keyboard-selected before reveal — subtle cue only */
+        .sc-bar-outer.selected:not(.active) .sc-bar {
+          transform: translateX(4px);
+          filter: brightness(1.04);
+        }
+        .sc-bar-outer.selected:not(.active) .sc-label {
+          color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Light hover hint only — does not select or reveal */
+        .sc-bar-outer:hover:not(.active):not(.selected) .sc-bar {
+          transform: translateX(2px);
+          filter: brightness(1.02);
+        }
 
         /* red underlay — peeks out below the bar when active */
         .sc-bar-red {
           position: absolute;
-          top: 0; left: 0;
-          width: 45vw;
+          top: 5px; left: 0;
+          width: min(45vw, calc(100vw - max(16px, env(safe-area-inset-left)) - 12px));
+          max-width: calc(100vw - max(16px, env(safe-area-inset-left)) - 12px);
           height: 64px;
           background: #c4001a;
           clip-path: polygon(50% 0, 100% 0, 100% 100%, calc(50% - 10px) 100%);
           transform: translateY(-7px);
           opacity: 0;
-          transition: opacity 0.2s ease;
+          transition: opacity 0.22s ease, height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
           z-index: 0;
           pointer-events: none;
         }
-        .sc-bar-outer.active .sc-bar-red { opacity: 1; }
 
         /* white fill — skewed parallelogram on the right 25% */
         .sc-bar-fill {
@@ -542,6 +589,8 @@ export default function AboutMe() {
           align-items: center;
           justify-content: space-between;
           padding: 0 20px 0 20px;
+          min-width: 0;
+          overflow: hidden;
         }
 
         /* left: role label */
@@ -568,11 +617,14 @@ export default function AboutMe() {
           justify-content: center;
           gap: 3px;
           padding-left: 78px;
+          min-width: 0;
         }
         .sc-main-top {
           display: flex;
           align-items: center;
           gap: 12px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         .sc-icon {
@@ -593,10 +645,18 @@ export default function AboutMe() {
           letter-spacing: 4px;
           line-height: 1;
           color: rgba(255,255,255,0.85);
-          transition: color 0.2s ease;
+          transition: color 0.2s ease, transform 0.25s ease;
           user-select: none;
+          min-width: 0;
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          text-align: center;
         }
-        .sc-bar-outer.active .sc-label { color: #111111; }
+        .sc-bar-outer.active .sc-label {
+          color: #111111;
+          transform: scale(1.02);
+        }
 
         /* right: stats group */
         .sc-stats {
@@ -698,23 +758,24 @@ export default function AboutMe() {
         }
       `}</style>
 
-      <div className="sc-root" role="navigation">
+      <nav className={`sc-root${revealed ? " revealed" : ""}`} aria-label="About sections">
         {ITEMS.map((item, i) => (
-          <div
+          <button
+            type="button"
             key={item.id}
-            className={`sc-bar-outer${active === i ? " active" : ""}${mounted ? " mounted" : ""}`}
-            onClick={() => {
-              setActive(i);
+            className={`sc-bar-outer${revealed && active === i ? " active" : ""}${!revealed && active === i ? " selected" : ""}${mounted ? " mounted" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              selectBar(i);
             }}
-            onMouseEnter={() => {
-              setActive(i);
-            }}
+            aria-pressed={active === i && revealed}
+            aria-label={`${item.label}. Click or press Enter to reveal.`}
           >
-            <div className="sc-bar-red" />
+            <div className="sc-bar-red" aria-hidden="true" />
             <div className="sc-bar">
               <img className="sc-char" src={CHARS[i % CHARS.length]} alt="" />
-              <div className="sc-bar-fill" />
-              <div className="sc-bar-shade" />
+              <div className="sc-bar-fill" aria-hidden="true" />
+              <div className="sc-bar-shade" aria-hidden="true" />
               <div className="sc-bar-content">
                 <div className="sc-role">{ROLES[i].text}</div>
                 <div className="sc-main">
@@ -724,10 +785,60 @@ export default function AboutMe() {
                 </div>
               </div>
             </div>
-          </div>
+          </button>
         ))}
-      </div>
+      </nav>
 
+      {revealed && <div key={`dim-${active}`} className="sc-dim" />}
+      {revealed && (
+        <div key={`panel-${active}`} className={`sc-reveal-panel${mounted ? " mounted" : ""}`}>
+          <div className="sc-reveal-upper-bar">
+            {REVEAL_CONTENT[active].subtitle && (
+              <div className="sc-reveal-subtitle">{REVEAL_CONTENT[active].subtitle}</div>
+            )}
+            {REVEAL_CONTENT[active].upper.map((line) => (
+              <div className="sc-reveal-upper-line" key={line}>{line}</div>
+            ))}
+            {REVEAL_CONTENT[active].chips && (
+              <div className="sc-reveal-chips">
+                {REVEAL_CONTENT[active].chips.map((chip) => (
+                  <span className="sc-reveal-chip" key={chip}>{chip}</span>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="sc-reveal-lower-bar">{REVEAL_CONTENT[active].lower}</div>
+        </div>
+      )}
+      {revealed && (
+        <div key={`nav-${active}`} className="sc-right-nav">
+          <span className="sc-nav-arrow left">◄</span>
+          <span className="sc-nav-btn">LB</span>
+          <span className="sc-nav-dot" />
+          <span className="sc-nav-btn">RB</span>
+          <span className="sc-nav-arrow right">►</span>
+        </div>
+      )}
+      {revealed && (
+        <div key={`portrait-${active}`} className={`sc-main-portrait-shell${mounted ? " mounted" : ""}`}>
+          <img
+            className="sc-main-portrait"
+            src={MAIN_IMAGES[active % MAIN_IMAGES.length]}
+            alt=""
+          />
+        </div>
+      )}
+
+      <PageBackButton
+        mounted={mounted}
+        backdrop={false}
+        label={revealed ? "ABOUT ME" : "MAIN MENU"}
+        onBack={goBack}
+        hints={revealed ? [["↑↓ / ←→", "SWITCH"], ["ESC", "BACK"]] : [
+          ["↑↓", "SELECT"],
+          ["→ / ↵", "REVEAL"],
+        ]}
+      />
     </div>
   );
 }

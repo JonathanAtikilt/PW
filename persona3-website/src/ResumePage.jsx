@@ -6,21 +6,21 @@ const ITEMS = [
   { id: "education", badge: "I", title: "EDUCATION", subtitle: "UCSC CS + APPLIED MATH", rank: 4 },
   { id: "skills", badge: "II", title: "SKILLS", subtitle: "ML · AGENTS · SYSTEMS", rank: 5 },
   { id: "projects", badge: "III", title: "PROJECTS", subtitle: "LINKUP / PLOTGUARD / NEMOPILOT", rank: 5 },
-  { id: "experience", badge: "IV", title: "EXPERIENCE", subtitle: "AIEA LAB / NCG LAB", rank: 4 },
+  { id: "experience", badge: "IV", title: "EXPERIENCE", subtitle: "SYNTRONIC / AMAZON · LABS", rank: 4 },
 ];
 
 const RESUME_SECTIONS = [
   {
     index: "01",
     title: "EDUCATION LOG",
-    progress: "3.84",
+    progress: "3.7",
     subtitle: "FOUNDATION FOR ML ENGINEERING",
     chips: ["ML", "Systems", "Applied Math", "Research-ready"],
     rows: [
       { index: "01", title: "UC Santa Cruz — Computer Science", status: "B.S./M.S." },
       { index: "02", title: "Applied Mathematics (minor)", status: "STEM" },
       { index: "03", title: "Expected graduation", status: "June 2027" },
-      { index: "04", title: "GPA", status: "3.84/4.0" },
+      { index: "04", title: "GPA", status: "3.7/4.0" },
       {
         index: "05",
         title: "Request resume PDF",
@@ -99,17 +99,20 @@ const RESUME_SECTIONS = [
   },
   {
     index: "04",
-    title: "RESEARCH LOG",
-    progress: "2/2",
-    subtitle: "INTERPRETABLE + NEUROMORPHIC ML",
-    chips: ["LLM XAI", "SNN", "Docker/K8s", "Sports ML"],
+    title: "EXPERIENCE LOG",
+    progress: "3/3",
+    subtitle: "CONTRACT · RESEARCH · RF VALIDATION",
+    chips: ["RF Testing", "LLM XAI", "SNN", "Docker/K8s"],
     rows: [
-      { index: "01", title: "Neuromorphic Computing Group (UCSC)", status: "2024-25" },
-      { index: "02", title: "AIEA Lab — LLM interpretability", status: "2025" },
-      { index: "03", title: "NCG lab site", status: "LINK", href: "https://ncg.ucsc.edu/" },
-      { index: "04", title: "AIEA lab site", status: "LINK", href: "https://aiea-lab.github.io/" },
+      { index: "01", title: "Project Engineer — Syntronic → Amazon RF", status: "2026" },
+      { index: "02", title: "Neuromorphic Computing Group (UCSC)", status: "2024-25" },
+      { index: "03", title: "AIEA Lab — LLM interpretability", status: "2025" },
+      { index: "04", title: "NCG lab site", status: "LINK", href: "https://ncg.ucsc.edu/" },
+      { index: "05", title: "AIEA lab site", status: "LINK", href: "https://aiea-lab.github.io/" },
     ],
     bullets: [
+      "Syntronic contract (May 2026–Present): RF validation and hardware testing for Amazon's RF team.",
+      "Log measurement data, document anomalies, and support cross-functional engineering handoffs.",
       "NCG: sports analytics with spiking neural networks—20% faster Python SNN training via modular batching/refactors.",
       "Built player-tracking feature pipelines (extraction, temporal sequences, reproducible experiment logs).",
       "AIEA: Docker/Kubernetes LLM interpretability runs across 10k+ NLP samples for neuron activation analysis.",
@@ -212,6 +215,8 @@ export default function ResumePage({ src, initialActive = 1 }) {
           opacity: 0;
           transform: translateX(-24px);
           transition: opacity 0.35s ease, transform 0.35s ease;
+          max-width: calc(100% - 12px);
+          overflow-wrap: anywhere;
         }
         .resume-list-tag.mounted {
           opacity: 1;
@@ -253,6 +258,8 @@ export default function ResumePage({ src, initialActive = 1 }) {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
+          gap: 8px;
+          min-width: 0;
         }
 
         .resume-badge {
@@ -293,6 +300,10 @@ export default function ResumePage({ src, initialActive = 1 }) {
           letter-spacing: 1px;
           color: #a5f6ff;
           transition: color 0.22s ease;
+          min-width: 0;
+          flex: 1;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
         .resume-card-wrap.active .resume-title {
           color: #000;
@@ -329,13 +340,15 @@ export default function ResumePage({ src, initialActive = 1 }) {
           left: 64px;
           right: 14px;
           bottom: 12px;
-          height: 34px;
+          height: auto;
+          min-height: 34px;
           background: #85f4ff;
           clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
           display: flex;
           align-items: center;
-          padding: 0 18px;
+          padding: 4px 18px;
           transition: background 0.22s ease;
+          min-width: 0;
         }
         .resume-card-wrap.active .resume-subtitle-bar {
           background: #000;
@@ -344,10 +357,14 @@ export default function ResumePage({ src, initialActive = 1 }) {
         .resume-subtitle {
           font-family: 'Bebas Neue', sans-serif;
           font-size: 28px;
-          line-height: 1;
+          line-height: 1.1;
           letter-spacing: 1px;
           color: #041238;
           transition: color 0.22s ease;
+          white-space: normal;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          max-width: 100%;
         }
         .resume-card-wrap.active .resume-subtitle {
           color: #fff;
@@ -533,6 +550,8 @@ export default function ResumePage({ src, initialActive = 1 }) {
           font-size: 15px;
           letter-spacing: 2px;
           color: #91f5ff;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
         .resume-detail-chips {
           position: relative;

@@ -6,12 +6,14 @@ export default function PageBackButton({
   label = "MAIN MENU",
   hints = [],
   backdrop = true,
+  onBack,
 }) {
   const navigate = useNavigate();
 
-  const goHome = () => {
+  const handleBack = () => {
     playClickSound();
-    navigate("/");
+    if (onBack) onBack();
+    else navigate("/");
   };
 
   return (
@@ -47,6 +49,8 @@ export default function PageBackButton({
           pointer-events: none;
           opacity: 0;
           transform: translateY(10px);
+          max-width: 100vw;
+          box-sizing: border-box;
           transition:
             opacity 0.4s ease 0.45s,
             transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -59,6 +63,7 @@ export default function PageBackButton({
         .p3-page-back-bar {
           flex: 0 1 auto;
           min-width: min(320px, 72vw);
+          max-width: min(320px, calc(100vw - 48px - env(safe-area-inset-left) - env(safe-area-inset-right)));
           min-height: 56px;
           display: flex;
           align-items: center;
@@ -113,6 +118,9 @@ export default function PageBackButton({
           line-height: 1;
           color: #a5f6ff;
           transition: color 0.18s ease;
+          min-width: 0;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
         .p3-page-back-bar:hover .p3-page-back-label,
         .p3-page-back-bar:focus-visible .p3-page-back-label {
@@ -171,7 +179,7 @@ export default function PageBackButton({
         <button
           type="button"
           className="p3-screen-backdrop"
-          onClick={goHome}
+          onClick={handleBack}
           aria-label="Click empty area to return to main menu"
           tabIndex={-1}
         />
@@ -181,7 +189,7 @@ export default function PageBackButton({
         <button
           type="button"
           className="p3-page-back-bar"
-          onClick={goHome}
+          onClick={handleBack}
           aria-label="Back to main menu"
         >
           <span className="p3-page-back-arrow">◄</span>

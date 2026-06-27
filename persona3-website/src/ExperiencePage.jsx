@@ -2,21 +2,31 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageBackButton from "./PageBackButton";
 
-const LABS = [
+const ENTRIES = [
+  {
+    id: "syntronic",
+    badge: "★",
+    title: "PROJECT ENGINEER",
+    subtitle: "AMAZON RF · SYNTRONIC",
+    showRank: false,
+    compactTitle: true,
+  },
   {
     id: "aiea",
-    badge: "I",
+    badge: "II",
     title: "AIEA LAB",
     subtitle: "LLM INTERPRETABILITY / XAI",
     rank: 5,
+    rankLabel: "RANK",
     url: "https://aiea-lab.github.io/",
   },
   {
     id: "ncg",
-    badge: "II",
+    badge: "III",
     title: "NCG LAB",
     subtitle: "NEUROMORPHIC / SPORTS ML",
     rank: 5,
+    rankLabel: "RANK",
     url: "https://ncg.ucsc.edu/",
   },
 ];
@@ -24,8 +34,30 @@ const LABS = [
 const EXPERIENCE_SECTIONS = [
   {
     index: "01",
+    title: "SYNTRONIC CONTRACT LOG",
+    progress: "MAY 2026",
+    contextTitle: "ROLE CONTEXT",
+    rows: [
+      { index: "01", title: "Project Engineer", status: "ROLE" },
+      { index: "02", title: "Amazon — RF Engineering Team", status: "CLIENT" },
+      { index: "03", title: "Syntronic (Contract Employer)", status: "VIA" },
+      { index: "04", title: "May 2026 – Present", status: "DATES" },
+    ],
+    knownFor: [
+      "Syntronic contract role embedded with Amazon's RF engineering team — not direct Amazon employment.",
+      "Hands-on wireless validation work that builds systems discipline useful for ML/AI: measurement rigor, anomaly tracking, and reproducible test workflows.",
+    ],
+    myRole: [
+      "Run RF tests and hardware validation; troubleshoot devices and test setups.",
+      "Collect and log technical measurement data; flag anomalies for engineering review.",
+      "Support cross-functional RF workflows with clear documentation and handoffs.",
+    ],
+  },
+  {
+    index: "02",
     title: "AIEA LAB LOG",
     progress: "2025",
+    contextTitle: "WHAT THE LAB IS KNOWN FOR",
     rows: [
       { index: "01", title: "AI Explainability & Alignment Lab", status: "UCSC" },
       { index: "02", title: "Neuron Explanations for LLMs", status: "ROLE" },
@@ -45,9 +77,10 @@ const EXPERIENCE_SECTIONS = [
     url: "https://aiea-lab.github.io/",
   },
   {
-    index: "02",
+    index: "03",
     title: "NCG LAB LOG",
     progress: "2024-25",
+    contextTitle: "WHAT THE LAB IS KNOWN FOR",
     rows: [
       { index: "01", title: "Neuromorphic Computing Group", status: "UCSC" },
       { index: "02", title: "Sports Analytics · Spiking Neural Networks", status: "ROLE" },
@@ -82,7 +115,7 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "ArrowUp") setActive((i) => Math.max(0, i - 1));
-      if (e.key === "ArrowDown") setActive((i) => Math.min(LABS.length - 1, i + 1));
+      if (e.key === "ArrowDown") setActive((i) => Math.min(ENTRIES.length - 1, i + 1));
       if (e.key === "ArrowLeft") navigate("/");
       if (e.key === "Escape" || e.key === "Backspace") navigate("/");
     };
@@ -97,7 +130,7 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
         <video className="resume-entry-video" src={src} autoPlay loop muted playsInline />
       </div>
 
-      <PageBackButton mounted={mounted} hints={[["↑↓", "SELECT LAB"]]} />
+      <PageBackButton mounted={mounted} hints={[["↑↓", "SELECT"]]} />
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');
@@ -228,6 +261,8 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
           opacity: 0;
           transform: translateX(-24px);
           transition: opacity 0.35s ease, transform 0.35s ease;
+          max-width: calc(100% - 12px);
+          overflow-wrap: anywhere;
         }
         .resume-list-tag.mounted {
           opacity: 1;
@@ -269,6 +304,13 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
+          gap: 8px;
+          min-width: 0;
+        }
+        .resume-card-inner.no-rank {
+          justify-content: flex-start;
+          align-items: center;
+          padding-right: 16px;
         }
 
         .resume-badge {
@@ -309,6 +351,18 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
           letter-spacing: 1px;
           color: #a5f6ff;
           transition: color 0.22s ease;
+          min-width: 0;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+        .resume-title.compact {
+          flex: 1;
+          font-size: clamp(22px, 3.4vw, 40px);
+          letter-spacing: 0.5px;
+          line-height: 1.1;
+          white-space: normal;
+          overflow-wrap: anywhere;
+          word-break: break-word;
         }
         .resume-card-wrap.active .resume-title {
           color: #000;
@@ -345,13 +399,15 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
           left: 64px;
           right: 14px;
           bottom: 12px;
-          height: 34px;
+          height: auto;
+          min-height: 34px;
           background: #85f4ff;
           clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
           display: flex;
           align-items: center;
-          padding: 0 18px;
+          padding: 4px 18px;
           transition: background 0.22s ease;
+          min-width: 0;
         }
         .resume-card-wrap.active .resume-subtitle-bar {
           background: #000;
@@ -360,10 +416,18 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
         .resume-subtitle {
           font-family: 'Bebas Neue', sans-serif;
           font-size: 26px;
-          line-height: 1;
+          line-height: 1.1;
           letter-spacing: 1px;
           color: #041238;
           transition: color 0.22s ease;
+          white-space: normal;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          max-width: 100%;
+        }
+        .resume-card-wrap.compact-card .resume-subtitle {
+          font-size: clamp(14px, 2vw, 22px);
+          letter-spacing: 0.5px;
         }
         .resume-card-wrap.active .resume-subtitle {
           color: #fff;
@@ -532,6 +596,7 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
 
         @media (max-width: 520px) {
           .resume-title { font-size: clamp(34px, 10vw, 56px); }
+          .resume-title.compact { font-size: clamp(17px, 5.2vw, 30px); }
           .resume-rank-number { font-size: clamp(44px, 12vw, 70px); }
           .resume-subtitle { font-size: clamp(18px, 5vw, 26px); }
           .resume-card { height: 112px; }
@@ -546,28 +611,30 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
 
       <div className="resume-overlay">
         <div className="resume-stack">
-          <div className={`resume-list-tag${mounted ? " mounted" : ""}`}>LABS</div>
-          {LABS.map((lab, index) => (
+          <div className={`resume-list-tag${mounted ? " mounted" : ""}`}>EXPERIENCE</div>
+          {ENTRIES.map((entry, index) => (
             <div
-              key={lab.id}
-              className={`resume-card-wrap${active === index ? " active" : ""}${mounted ? " mounted" : ""}`}
+              key={entry.id}
+              className={`resume-card-wrap${active === index ? " active" : ""}${mounted ? " mounted" : ""}${entry.showRank === false ? " compact-card" : ""}`}
               style={{ transitionDelay: `${index * 70}ms` }}
               onMouseEnter={() => setActive(index)}
               onClick={() => setActive(index)}
             >
               <div className="resume-card">
                 <div className="resume-badge">
-                  <div className="resume-badge-text">{lab.badge}</div>
+                  <div className="resume-badge-text">{entry.badge}</div>
                 </div>
-                <div className="resume-card-inner">
-                  <div className="resume-title">{lab.title}</div>
-                  <div className="resume-rank">
-                    <div className="resume-rank-label">RANK</div>
-                    <div className="resume-rank-number">{lab.rank}</div>
-                  </div>
+                <div className={`resume-card-inner${entry.showRank === false ? " no-rank" : ""}`}>
+                  <div className={`resume-title${entry.compactTitle ? " compact" : ""}`}>{entry.title}</div>
+                  {entry.showRank !== false && entry.rank != null && (
+                    <div className="resume-rank">
+                      <div className="resume-rank-label">{entry.rankLabel ?? "RANK"}</div>
+                      <div className="resume-rank-number">{entry.rank}</div>
+                    </div>
+                  )}
                 </div>
                 <div className="resume-subtitle-bar">
-                  <div className="resume-subtitle">{lab.subtitle}</div>
+                  <div className="resume-subtitle">{entry.subtitle}</div>
                 </div>
               </div>
             </div>
@@ -612,7 +679,7 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
           </div>
 
           <div className="resume-detail-bottom">
-            <div className="resume-detail-bottom-title">WHAT THE LAB IS KNOWN FOR</div>
+            <div className="resume-detail-bottom-title">{activeSection.contextTitle ?? "WHAT THE LAB IS KNOWN FOR"}</div>
             <div className="resume-detail-bullets">
               {activeSection.knownFor.map((bullet) => (
                 <div className="resume-detail-bullet" key={bullet}>
@@ -633,14 +700,16 @@ export default function ExperiencePage({ src, initialActive = 0 }) {
             </div>
           </div>
 
-          <a
-            className="experience-lab-link"
-            href={activeSection.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            VISIT LAB SITE ↗
-          </a>
+          {activeSection.url && (
+            <a
+              className="experience-lab-link"
+              href={activeSection.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VISIT LAB SITE ↗
+            </a>
+          )}
         </div>
       </div>
 

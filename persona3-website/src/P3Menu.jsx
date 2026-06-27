@@ -208,6 +208,8 @@ export default function P3Menu({ onNavigate }) {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          max-width: min(72vw, calc(100vw - 64px));
+          overflow-wrap: anywhere;
         }
         .p3-name-tag span:first-child {
           color: rgba(0, 0, 0, 0.86);
@@ -237,7 +239,9 @@ export default function P3Menu({ onNavigate }) {
         }
         .p3-hero-tagline span {
           display: block;
-          white-space: nowrap;
+          white-space: normal;
+          max-width: 100%;
+          overflow-wrap: anywhere;
         }
         .p3-hero-tagline span:first-child {
           font-size: clamp(26px, 4.2vw, 38px);
@@ -264,6 +268,9 @@ export default function P3Menu({ onNavigate }) {
           font-size: clamp(14px, 2.4vw, 20px);
           color: #3ce2ff;
           text-shadow: 0 0 18px rgba(60, 226, 255, 0.35);
+          white-space: normal;
+          max-width: 100%;
+          overflow-wrap: anywhere;
         }
         .p3-hero-sub span:last-child {
           font-size: clamp(12px, 2.1vw, 17px);

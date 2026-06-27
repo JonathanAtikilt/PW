@@ -130,8 +130,8 @@ export default function Socials() {
         /* ── Each bar ── */
         .sc-bar {
           position: relative;
-          width: 45vw;
-          max-width: calc(100vw - 8px);
+          width: min(45vw, calc(100vw - max(16px, env(safe-area-inset-left)) - 12px));
+          max-width: calc(100vw - max(16px, env(safe-area-inset-left)) - 12px);
           height: 64px;
           transition: height 0.3s cubic-bezier(0.22,1,0.36,1);
           background: #111;
@@ -161,8 +161,8 @@ export default function Socials() {
         .sc-bar-red {
           position: absolute;
           top: 0; left: 0;
-          width: 45vw;
-          max-width: calc(100vw - 8px);
+          width: min(45vw, calc(100vw - max(16px, env(safe-area-inset-left)) - 12px));
+          max-width: calc(100vw - max(16px, env(safe-area-inset-left)) - 12px);
           height: 64px;
           background: #c4001a;
           clip-path: polygon(50% 0, 100% 0, 100% 100%, calc(50% - 10px) 100%);
@@ -257,6 +257,8 @@ export default function Socials() {
           display: flex;
           align-items: center;
           gap: 12px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         .sc-icon {
@@ -279,6 +281,11 @@ export default function Socials() {
           color: rgba(255,255,255,0.85);
           transition: color 0.2s ease;
           user-select: none;
+          min-width: 0;
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          text-align: center;
         }
         .sc-bar-outer.active .sc-label { color: #111111; }
 
