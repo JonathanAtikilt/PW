@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import backgroundMusic from "./assets/color-your-night.mp4";
+import { bootstrapBackgroundAudio } from "./backgroundAudio";
 import {
   isFeatureTarget,
   isTransitionKey,
@@ -8,8 +10,12 @@ import {
 
 export default function ClickSound() {
   useEffect(() => {
-    primeClickAudio();
-    const retry = window.setTimeout(() => primeClickAudio(), 300);
+    const unlockAudio = () => bootstrapBackgroundAudio(backgroundMusic);
+
+    primeClickAudio().then(unlockAudio);
+    const retry = window.setTimeout(() => {
+      primeClickAudio().then(unlockAudio);
+    }, 300);
 
     const onPointerDown = (e) => {
       if (isFeatureTarget(e.target)) playClickSound();
