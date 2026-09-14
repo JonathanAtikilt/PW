@@ -41,7 +41,7 @@ const EXPERIENCE_SECTIONS = [
       { index: "01", title: "Project Engineer", status: "ROLE" },
       { index: "02", title: "Amazon — RF Engineering Team", status: "CLIENT" },
       { index: "03", title: "Syntronic (Contract Employer)", status: "VIA" },
-      { index: "04", title: "May 2026 – Present", status: "DATES" },
+      { index: "04", title: "May 2026 – September 2026", status: "DATES" },
     ],
     knownFor: [
       "Syntronic contract role embedded with Amazon's RF engineering team — not direct Amazon employment.",

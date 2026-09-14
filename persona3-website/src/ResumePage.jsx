@@ -111,7 +111,7 @@ const RESUME_SECTIONS = [
       { index: "05", title: "AIEA lab site", status: "LINK", href: "https://aiea-lab.github.io/" },
     ],
     bullets: [
-      "Syntronic contract (May 2026–Present): RF validation and hardware testing for Amazon's RF team.",
+      "Syntronic contract (May 2026–September 2026): RF validation and hardware testing for Amazon's RF team.",
       "Log measurement data, document anomalies, and support cross-functional engineering handoffs.",
       "NCG: sports analytics with spiking neural networks—20% faster Python SNN training via modular batching/refactors.",
       "Built player-tracking feature pipelines (extraction, temporal sequences, reproducible experiment logs).",
